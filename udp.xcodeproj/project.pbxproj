@@ -14,6 +14,8 @@
 		DA27D8661B4A9787003DEA94 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA27D8651B4A9787003DEA94 /* Images.xcassets */; };
 		DA27D8691B4A9787003DEA94 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA27D8671B4A9787003DEA94 /* LaunchScreen.xib */; };
 		DA27D8751B4A9788003DEA94 /* udpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DA27D8741B4A9788003DEA94 /* udpTests.m */; };
+		DA27D8801B4A986B003DEA94 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = DA27D87F1B4A986B003DEA94 /* AsyncUdpSocket.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		DA27D8831B4A9FB2003DEA94 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = DA27D8821B4A9FB2003DEA94 /* AsyncSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,11 @@
 		DA27D86E1B4A9788003DEA94 /* udpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = udpTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA27D8731B4A9788003DEA94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA27D8741B4A9788003DEA94 /* udpTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = udpTests.m; sourceTree = "<group>"; };
+		DA27D87E1B4A986B003DEA94 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
+		DA27D87F1B4A986B003DEA94 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
+		DA27D8811B4A9FB2003DEA94 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
+		DA27D8821B4A9FB2003DEA94 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
+		DA27D8851B4AAE60003DEA94 /* Service.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Service.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +88,7 @@
 		DA27D8571B4A9787003DEA94 /* udp */ = {
 			isa = PBXGroup;
 			children = (
+				DA27D8841B4AAAFA003DEA94 /* AsyncSocket */,
 				DA27D85C1B4A9787003DEA94 /* AppDelegate.h */,
 				DA27D85D1B4A9787003DEA94 /* AppDelegate.m */,
 				DA27D85F1B4A9787003DEA94 /* ViewController.h */,
@@ -89,6 +97,7 @@
 				DA27D8651B4A9787003DEA94 /* Images.xcassets */,
 				DA27D8671B4A9787003DEA94 /* LaunchScreen.xib */,
 				DA27D8581B4A9787003DEA94 /* Supporting Files */,
+				DA27D8851B4AAE60003DEA94 /* Service.h */,
 			);
 			path = udp;
 			sourceTree = "<group>";
@@ -117,6 +126,17 @@
 				DA27D8731B4A9788003DEA94 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DA27D8841B4AAAFA003DEA94 /* AsyncSocket */ = {
+			isa = PBXGroup;
+			children = (
+				DA27D8811B4A9FB2003DEA94 /* AsyncSocket.h */,
+				DA27D8821B4A9FB2003DEA94 /* AsyncSocket.m */,
+				DA27D87E1B4A986B003DEA94 /* AsyncUdpSocket.h */,
+				DA27D87F1B4A986B003DEA94 /* AsyncUdpSocket.m */,
+			);
+			name = AsyncSocket;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,6 +188,7 @@
 				TargetAttributes = {
 					DA27D8541B4A9787003DEA94 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 6KC4296FY7;
 					};
 					DA27D86D1B4A9788003DEA94 = {
 						CreatedOnToolsVersion = 6.2;
@@ -220,8 +241,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA27D8611B4A9787003DEA94 /* ViewController.m in Sources */,
+				DA27D8831B4A9FB2003DEA94 /* AsyncSocket.m in Sources */,
 				DA27D85E1B4A9787003DEA94 /* AppDelegate.m in Sources */,
 				DA27D85B1B4A9787003DEA94 /* main.m in Sources */,
+				DA27D8801B4A986B003DEA94 /* AsyncUdpSocket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,9 +366,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = udp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -353,9 +380,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = udp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -412,6 +443,7 @@
 				DA27D87A1B4A9788003DEA94 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DA27D87B1B4A9788003DEA94 /* Build configuration list for PBXNativeTarget "udpTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +452,7 @@
 				DA27D87D1B4A9788003DEA94 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
