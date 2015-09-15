@@ -23,6 +23,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *Connect;
 @property (strong, nonatomic) IBOutlet UIButton *Disconnect;
 @property (strong, nonatomic) IBOutlet UILabel *BLEStatus;
+@property (strong, nonatomic) IBOutlet UILabel *Package;
 
 @property (strong, nonatomic) CBCentralManager *centralManager;
 @property (strong, nonatomic) CBPeripheral *discoveredPeripheral;

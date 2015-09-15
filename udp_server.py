@@ -1,4 +1,4 @@
-import SocketServer
+iport SocketServer
 import json
 
 __author__ = 'maeglin89273'
@@ -10,14 +10,14 @@ PORT = 3070
 
 BUFFER_SIZE = 512
 
-filename = 'test.csv'
+filename = 'tmp.csv'
 
 out = open(filename, 'a')
 
 def direct_to_model(raw_data):
-    data = [raw_data['FFA2'], raw_data['FFA3'], raw_data['FFA4'], raw_data['FFA6'], raw_data['FFA7'], raw_data['FFA8'], raw_data['Timestamp'], raw_data['Label']]
+    data = [raw_data['FFA2'], raw_data['Timestamp'], raw_data['Label']]
 
-    print data[:3]
+    print data
     out.write(','.join([str(x) for x in data]) + '\n')
 
 class UDPHandler(SocketServer.BaseRequestHandler):
@@ -27,7 +27,7 @@ class UDPHandler(SocketServer.BaseRequestHandler):
         direct_to_model(raw_data)
 
 def start_server():
-    print 'current ip address: ' + sk.gethostbyname(sk.gethostname())
+    print 'current ip address: ' + sk.gethostbyname(sk.gethostname()) + ':' + str(PORT)
 
     server = SocketServer.UDPServer((HOST, PORT), UDPHandler)
     server.serve_forever()

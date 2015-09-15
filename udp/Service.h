@@ -20,4 +20,7 @@
 #define DEGREE_Y_UUID @"FFA7"
 #define DEGREE_Z_UUID @"FFA8"
 
+#define ACC_UUID @"FFA2"
+#define DEGREE_UUID @"FFA4"
+
 #endif
