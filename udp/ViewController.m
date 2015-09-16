@@ -55,10 +55,18 @@ int idx;
     [self Initial_Socket: ip port: [port intValue]];
 }
 
-- (IBAction)Disconnect_Click:(id)sender {
+- (IBAction)Disconnect_Click:(id)sender
+{
     [_socket close];
-    [_Connect setEnabled: YES];
-    [_Disconnect setEnabled: NO];
+    [_Connect setEnabled:YES];
+    [_Disconnect setEnabled:NO];
+}
+
+- (IBAction)ReScan_Click:(id)sender
+{
+    [_socket close];
+    [_Connect setEnabled:YES];
+    [_Disconnect setEnabled:NO];
 }
 
 - (void)Initial_Socket:(NSString *)ip port:(UInt16)port {
@@ -70,7 +78,6 @@ int idx;
         NSError *error = nil;
         
         if ([_socket connectToHost:ip onPort:port error:&error]) {
-            NSLog(@"Socket Connect on %@:%lu, %d", ip, port, [_socket isConnected]);
             [_Connect setEnabled:NO];
             [_Disconnect setEnabled:YES];
         }
@@ -111,17 +118,23 @@ int idx;
     }
 }
 
-- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
+- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
+{
     NSLog(@"Connected");
-    [_BLEStatus setText: @"BLE Status = On"];
-    [_Connect setEnabled: YES];
+    [_BLEStatus setText: @"BLE Status = ON"];
+    [_Connect setEnabled:YES];
     [_centralManager stopScan];
     NSLog(@"Scanning stopped");
     
     
     peripheral.delegate = self;
     [peripheral discoverServices:@[[CBUUID UUIDWithString:SERVICE_UUID]]];
-    
+}
+
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    [_BLEStatus setText:@"BLE Status = OFF"];
+    [self viewDidLoad];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
@@ -209,8 +222,21 @@ int idx;
 }
 
 - (NSString*) dec2acc: (unsigned int)dec {
-    if (dec > 32767.0) return [self num2str:(float)((dec - 65536.0)/4096.0) ];
-    else return [self num2str:(float)(dec / 4096.0)];
+    float value = 0.0;
+    switch (_SensitiveController.selectedSegmentIndex)
+    {
+        case 0:
+            value = 16384.0;
+            break;
+        case 1:
+            value = 8192.0;
+            break;
+        case 2:
+            value = 4096.0;
+    }
+    NSLog(@"%f", value);
+    if (dec > 32767.0) return [self num2str:(float)((dec - 65536.0)/value) ];
+    else return [self num2str:(float)(dec / value)];
 }
 
 - (NSString*) dec2deg: (unsigned int)dec {
