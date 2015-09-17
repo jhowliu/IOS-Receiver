@@ -12,14 +12,6 @@
 #define MY_UUID @"CD0C"
 #define SERVICE_UUID @"FFA0"
 
-#define ACCELERATION_X_UUID @"FFA2"
-#define ACCELERATION_Y_UUID @"FFA3"
-#define ACCELERATION_Z_UUID @"FFA4"
-
-#define DEGREE_X_UUID @"FFA6"
-#define DEGREE_Y_UUID @"FFA7"
-#define DEGREE_Z_UUID @"FFA8"
-
 #define ACC_UUID @"FFA2"
 #define DEGREE_UUID @"FFA4"
 

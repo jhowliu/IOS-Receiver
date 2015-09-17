@@ -34,8 +34,6 @@
 
 - (IBAction)Connect_Click :(id)sender;
 - (IBAction)Disconnect_Click:(id)sender;
-- (IBAction)ReScan_Click:(id)sender;
-- (IBAction)Sensitive_valueChanged:(id)sender;
 
 - (NSString*) dec2acc: (unsigned int)dec;
 - (NSString*) dec2deg: (unsigned int)dec;
