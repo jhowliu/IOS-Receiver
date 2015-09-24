@@ -3,14 +3,18 @@ import json
 
 __author__ = 'maeglin89273'
 
+import sys
 import socket as sk
 
-HOST = ''
+HOST = '192.168.0.170'
 PORT = 3070
 
 BUFFER_SIZE = 512
 
-filename = 'tmp.csv'
+if len(sys.argv) > 1:
+    filename = sys.argv[1]
+else :
+    print "Usage: python pyfile <output file>"
 
 out = open(filename, 'a')
 
