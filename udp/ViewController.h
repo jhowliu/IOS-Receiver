@@ -9,17 +9,20 @@
 #import <UIKit/UIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
+#import "AsyncSocket.h"
 #import "AsyncUdpSocket.h"
 
 #import "Service.h"
 
-@interface ViewController : UIViewController<AsyncUdpSocketDelegate, CBCentralManagerDelegate, CBPeripheralDelegate> {
-    AsyncUdpSocket *_socket;
+@interface ViewController : UIViewController<AsyncSocketDelegate, AsyncUdpSocketDelegate, CBCentralManagerDelegate, CBPeripheralDelegate> {
+    //AsyncUdpSocket *_socket;
+    AsyncSocket *_socket;
 }
 
 @property (strong, nonatomic) IBOutlet UITextField *Host;
 @property (strong, nonatomic) IBOutlet UITextField *Port;
 @property (strong, nonatomic) IBOutlet UITextField *label;
+@property (strong, nonatomic) IBOutlet UITextField *PosLabel;
 @property (strong, nonatomic) IBOutlet UIButton *Connect;
 @property (strong, nonatomic) IBOutlet UIButton *Disconnect;
 @property (strong, nonatomic) IBOutlet UILabel *BLEStatus;

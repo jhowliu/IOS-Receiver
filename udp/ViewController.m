@@ -24,12 +24,10 @@ int idx;
     [super viewDidLoad];
     [_Connect setEnabled: NO];
     [_Disconnect setEnabled: NO];
-    _Host.text = @"192.168.0.159";
-    _Port.text = @"3070";
-    _label.text = @"1";
+    
     idx = 0;
     
-    _data = [[NSMutableDictionary alloc] initWithObjectsAndKeys: @"Acc", @"FFA2", @"", @"Timestamp", @"", @"Label", nil];
+    _data = [[NSMutableDictionary alloc] initWithObjectsAndKeys: @"Acc", @"FFA2", @"", @"Timestamp", @"", @"Label", @"", @"PosLabel", nil];
     
     _uuids = [[NSDictionary alloc] initWithObjectsAndKeys: @"0", @"FFA2", @"1", @"FFA4", nil];
     
@@ -40,7 +38,9 @@ int idx;
 - (void) sendMsg {
     NSError *error = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:_data options:NSJSONWritingPrettyPrinted error: &error];
-    [_socket sendData:data withTimeout:TIME_OUT tag:1];
+    [_socket writeData:data withTimeout:TIME_OUT tag:1];
+    sleep(0.05);
+    //[_socket sendData:data withTimeout:TIME_OUT tag:1];
 }
 
 - (IBAction)Connect_Click:(id)sender {
@@ -51,25 +51,20 @@ int idx;
         return;
     
     [_data setValue: _label.text forKey:@"Label"];
+    [_data setValue: _PosLabel.text forKey:@"PosLabel"];
     [self Initial_Socket: ip port: [port intValue]];
 }
 
 - (IBAction)Disconnect_Click:(id)sender
 {
-    [_socket close];
-    [_Connect setEnabled:YES];
-    [_Disconnect setEnabled:NO];
-}
-
-- (IBAction)ReScan_Click:(id)sender
-{
-    [_socket close];
+    [_socket disconnect];
     [_Connect setEnabled:YES];
     [_Disconnect setEnabled:NO];
 }
 
 - (void)Initial_Socket:(NSString *)ip port:(UInt16)port {
-    _socket = [[AsyncUdpSocket alloc] initWithDelegate: self];
+    _socket = [[AsyncSocket alloc] initWithDelegate: self];
+    //_socket = [[AsyncUdpSocket alloc] initWithDelegate: self];
    
     // Connection
     
@@ -88,15 +83,24 @@ int idx;
     NSLog(@"Send");
 }
 
+-(void)onSocket:(AsyncSocket *)sock didWriteDataWithTag:(long)tag {
+    NSLog(@"Send");
+}
+
 // Called when socket is closed
 - (void)onUdpSocketDidClose:(AsyncUdpSocket *)sock {
     NSLog(@"Socket Closed");
     [_Connect setEnabled: YES];
+    [_Disconnect setEnabled: NO];
+}
+
+- (void)onSocketDidDisconnect:(AsyncSocket *)sock {
+    NSLog(@"Socket Closed");
+    [_Connect setEnabled: YES];
+    [_Disconnect setEnabled: NO];
 }
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
-    
-    NSLog(@"%ld", central.state);
     
     if (central.state != CBCentralManagerStatePoweredOn) return;
     else {
@@ -196,19 +200,7 @@ int idx;
 }
 
 - (NSString*) dec2deg: (unsigned int)dec {
-    float value = 0.0;
-    switch (_SensitiveController.selectedSegmentIndex)
-    {
-        case 0:
-            value = 131.0;
-            break;
-        case 1:
-            value = 131.0/2.0;
-            break;
-        case 2:
-            value = 131.0/4.0;
-            break;
-    }
+    float value = 131.0;
     
     if (dec > 32767.0)
     {
@@ -221,13 +213,7 @@ int idx;
 }
 
 - (NSString*) num2str: (float)value {
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    
-    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    [formatter setMaximumFractionDigits:8];
-    [formatter setRoundingMode: NSNumberFormatterRoundUp];
-    
-    return [formatter stringFromNumber: [NSNumber numberWithFloat:value]];
+    return [NSString stringWithFormat:@"%f", value];
 }
 
 - (NSString *) NSData2Acc: (NSData *)data {
